@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block heading %}
+    Login or Register
+{% endblock %}
+
+{% block body %}
+
+    <body class="bg">
+
+        <form>
+            <div class="form-group">
+                <label class="field-label">Username</label>
+                <input type="text" class="form-control" placeholder="Enter username">
+            </div>
+            <div class="form-group">
+                <label class="field-label">Password</label>
+                <input type="password" class="form-control" placeholder="Password">
+            </div>
+            <div class="login-register-btn">
+                <button type="Login" class="btn btn-primary">Login</button>
+                <button type="Register" class="btn btn-info">Register</button>
+            </div>
+        </form>
+
+        <h1>The Weather is {{summary}}</h1>
+
+    </body>
+
+{% endblock %}
