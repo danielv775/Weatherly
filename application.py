@@ -79,3 +79,9 @@ def logout():
         del session["user_id"]
 
     return render_template("home.html")
+
+@app.route("/results", methods=["POST"])
+def search():
+
+    # Take in searched term and query DB, then pass results to generate results.html
+    return render_template("results.html", user=session["user_id"])

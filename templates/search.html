@@ -8,8 +8,17 @@
 
     <body>
         <h1>Welcome, {{username}}, {{user}}</h1>
-        <p>Search Field</p>
 
+        <form action="{{ url_for('search') }}" method="post">
+            <div class="form-group">
+                <label class="field-label">Search</label>
+                <input type="text" name="search" class="form-control" placeholder="Enter a Zipcode, City, or Town">
+            </div>
+            <div class="login-register-btn">
+                <button type="submit" name="submit" class="btn btn-primary" value="Search">Search</button>
+            </div>
+        </form>
+        <br><br>
         <form action="{{ url_for('logout') }}" method="post">
             <div class="login-register-btn">
                 <button type="submit" name="submit" class="btn btn-primary" value="Logout">Logout</button>
