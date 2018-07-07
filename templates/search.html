@@ -7,8 +7,14 @@
 {% block body %}
 
     <body>
-        <h1>Welcome, {{user_name}}</h1>
+        <h1>Welcome, {{username}}, {{user}}</h1>
         <p>Search Field</p>
+
+        <form action="{{ url_for('logout') }}" method="post">
+            <div class="login-register-btn">
+                <button type="submit" name="submit" class="btn btn-primary" value="Logout">Logout</button>
+            </div>
+        </form>
 
     </body>
 

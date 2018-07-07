@@ -1,5 +1,6 @@
 
 $text-color: #001a6b;
+$error-color: #bc2105;
 $font-stack: 'Encode Sans Condensed', sans-serif;
 
 h1 {
@@ -8,6 +9,10 @@ h1 {
     color: $text-color;
     font-weight: bold;
     font-family: $font-stack;
+}
+
+p {
+    color: $error-color;
 }
 
 form {

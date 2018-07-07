@@ -5,6 +5,9 @@ h1 {
   font-weight: bold;
   font-family: "Encode Sans Condensed", sans-serif; }
 
+p {
+  color: #bc2105; }
+
 form {
   width: 50%;
   margin-left: auto;
