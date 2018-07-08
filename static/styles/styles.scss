@@ -45,3 +45,12 @@ html, body {
     font-weight: bold;
     font-family: $font-stack;
 }
+
+.link-result:link, .link-result:visited {
+    text-decoration: none;
+    color: $text-color;
+}
+
+.link-result:hover {;
+    color: $error-color;
+}

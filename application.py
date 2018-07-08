@@ -28,17 +28,14 @@ db = scoped_session(sessionmaker(bind=engine))
 @app.route("/")
 def index():
     """ Home Page """
-
-    KEY = "8565f94778670d37d36772bcc5b2a904"
-    get_request = f"https://api.darksky.net/forecast/{KEY}/42.37,-71.11"
-    #weather = requests.get(get_request).json()
-    #summary = weather["currently"]["summary"]
-    #print(json.dumps(weather["currently"], indent = 2))
     return render_template("home.html")
 
-@app.route("/search", methods=["POST"])
+@app.route("/search", methods=["POST", "GET"])
 def login_register():
     """ Login or Register """
+
+    if request.method == "GET":
+        return render_template("search.html", user=session["user_id"])
 
     username = request.form.get("username")
     password = request.form.get("password")
@@ -83,5 +80,25 @@ def logout():
 @app.route("/results", methods=["POST"])
 def search():
 
-    # Take in searched term and query DB, then pass results to generate results.html
-    return render_template("results.html", user=session["user_id"])
+    search_string = request.form.get("search")
+
+    if search_string:
+        if search_string.isalpha():
+            search_string = search_string.upper()
+        search_string = f"{search_string}%"
+        locations = db.execute("SELECT zipcode, city, state, lat, long, population FROM locations WHERE zipcode LIKE :search_string OR city LIKE :search_string", {"search_string": search_string}).fetchall()
+        return render_template("results.html", user=session["user_id"], locations=locations)
+    else:
+        empty_search_field = "Nothing entered, nothing to search"
+        return render_template("search.html", message=empty_search_field, user=session["user_id"])
+
+@app.route("/results/<string:city>/<lat>/<longg>")
+def location(city, lat, longg):
+
+    KEY = "8565f94778670d37d36772bcc5b2a904"
+    get_request = f"https://api.darksky.net/forecast/{KEY}/{lat},{longg}"
+    weather = requests.get(get_request).json()
+    weather_now = weather["currently"]
+    #print(json.dumps(weather["currently"], indent = 2))
+    print(weather_now)
+    return render_template("location.html", city=city, lat=lat, longg=longg)

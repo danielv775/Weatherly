@@ -32,4 +32,11 @@ html, body {
   font-weight: bold;
   font-family: "Encode Sans Condensed", sans-serif; }
 
+.link-result:link, .link-result:visited {
+  text-decoration: none;
+  color: #001a6b; }
+
+.link-result:hover {
+  color: #bc2105; }
+
 /*# sourceMappingURL=styles.css.map */
