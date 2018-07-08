@@ -1,28 +1,22 @@
 {% extends "layout.html" %}
 
 {% block heading %}
-    Login or Register
+    Weatherly: A Weather App
 {% endblock %}
 
 {% block body %}
 
     <body class="bg">
 
-        <form action="{{ url_for('login_register') }}" method="post">
-            <div>
-                <p>{{message}}</p>
-            </div>
-            <div class="form-group">
-                <label class="field-label">Username</label>
-                <input type="text" name="username" class="form-control" placeholder="Enter username">
-            </div>
-            <div class="form-group">
-                <label class="field-label">Password</label>
-                <input type="password" name="password" class="form-control" placeholder="Password">
-            </div>
+        <form action="{{ url_for('login') }}">
             <div class="login-register-btn">
-                <button type="submit" name="submit" class="btn btn-primary" value="Login">Login</button>
-                <button type="submit" name="submit" class="btn btn-primary" value="Register">Register</button>
+                <button type="submit" name="login" class="btn btn-primary">Login</button>
+            </div>
+        </form>
+        <br>
+        <form action="{{ url_for('register') }}">
+            <div class="login-register-btn">
+                <button type="submit" name="register" class="btn btn-primary">Register</button>
             </div>
         </form>
 

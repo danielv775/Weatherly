@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, session, render_template, request
+from flask import Flask, session, render_template, request, redirect, url_for
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -30,18 +30,17 @@ def index():
     """ Home Page """
     return render_template("home.html")
 
-@app.route("/search", methods=["POST", "GET"])
-def login_register():
-    """ Login or Register """
+@app.route("/login", methods=["POST", "GET"])
+def login():
+    """ Login """
 
     if request.method == "GET":
-        return render_template("search.html", user=session["user_id"])
+        return render_template("login.html")
 
-    username = request.form.get("username")
-    password = request.form.get("password")
-    pw_hash = sha256(password.encode()).hexdigest()
-
-    if request.form["submit"] == "Login":
+    elif request.method == "POST":
+        username = request.form.get("username")
+        password = request.form.get("password")
+        pw_hash = sha256(password.encode()).hexdigest()
 
         # Check if username exists in DB
         if db.execute("SELECT username FROM users WHERE username = :username ", {"username":username}).rowcount == 1:
@@ -49,26 +48,44 @@ def login_register():
             if(pw_hash == true_pw_hash):
                 # If username and pw correct, login and redirect to search page
                 session["user_id"] = db.execute("SELECT id FROM users WHERE username = :username ", {"username":username}).fetchall()[0][0]
-                return render_template("search.html", username=username, user=session["user_id"])
+                session["username"] = username
+                #return render_template("search.html", username=username, user=session["user_id"])
+                return redirect(url_for('search', action='search'))
             else:
                 wrong_pw = "incorrect password for this username"
-                return render_template("home.html", message=wrong_pw)
+                return render_template("login.html", message=wrong_pw)
         else:
             user_not_found = "username not found"
-            return render_template("home.html", message=user_not_found)
+            return render_template("login.html", message=user_not_found)
 
-    elif request.form["submit"] == "Register":
+@app.route("/register", methods=["POST", "GET"])
+def register():
+    """ Register """
 
-        # Make sure username is not already in DB
-        if db.execute("SELECT username FROM users WHERE username = :username ", {"username":username}).rowcount == 0:
-            db.execute("INSERT INTO users (username, pw_hash) VALUES (:username, :pw_hash)", {"username": username, "pw_hash": pw_hash})
-            db.commit()
-            success_message = "registration successful, login below"
-            return render_template("home.html", message=success_message)
-        # If username already in DB, cannot register
+    if request.method == "GET":
+        return render_template("register.html")
+
+    elif request.method == "POST":
+        username = request.form.get("username")
+        password = request.form.get("password")
+        verify_password = request.form.get("verify_password")
+
+        if password == verify_password:
+            pw_hash = sha256(password.encode()).hexdigest()
+
+            # Make sure username is not already in DB
+            if db.execute("SELECT username FROM users WHERE username = :username ", {"username":username}).rowcount == 0:
+                db.execute("INSERT INTO users (username, pw_hash) VALUES (:username, :pw_hash)", {"username": username, "pw_hash": pw_hash})
+                db.commit()
+                success_message = "registration successful, login below"
+                return render_template("login.html", message=success_message)
+            # If username already in DB, cannot register
+            else:
+                error_message = "username already exists, cannot register with this username"
+                return render_template("register.html", message=error_message)
         else:
-            error_message = "username already exists, cannot register with this username"
-            return render_template("home.html", message=error_message)
+            pw_mismatch = "passwords do not match"
+            return render_template("register.html", message=pw_mismatch)
 
 @app.route("/logged_out", methods=["POST"])
 def logout():
@@ -77,20 +94,23 @@ def logout():
 
     return render_template("home.html")
 
-@app.route("/results", methods=["POST"])
-def search():
+@app.route("/<string:action>", methods=["POST", "GET"])
+def search(action):
 
-    search_string = request.form.get("search")
+    if request.method == "GET":
+        return render_template("search.html", username=session["username"], user=session["user_id"])
+    elif request.method == "POST":
+        search_string = request.form.get("search")
 
-    if search_string:
-        if search_string.isalpha():
-            search_string = search_string.upper()
-        search_string = f"{search_string}%"
-        locations = db.execute("SELECT zipcode, city, state, lat, long, population FROM locations WHERE zipcode LIKE :search_string OR city LIKE :search_string", {"search_string": search_string}).fetchall()
-        return render_template("results.html", user=session["user_id"], locations=locations)
-    else:
-        empty_search_field = "Nothing entered, nothing to search"
-        return render_template("search.html", message=empty_search_field, user=session["user_id"])
+        if search_string:
+            if search_string.isalpha():
+                search_string = search_string.upper()
+            search_string = f"{search_string}%"
+            locations = db.execute("SELECT zipcode, city, state, lat, long, population FROM locations WHERE zipcode LIKE :search_string OR city LIKE :search_string", {"search_string": search_string}).fetchall()
+            return render_template("results.html", user=session["user_id"], locations=locations)
+        else:
+            empty_search_field = "Nothing entered, nothing to search"
+            return render_template("search.html", message=empty_search_field, user=session["user_id"], username=session["username"])
 
 @app.route("/results/<string:city>/<lat>/<longg>")
 def location(city, lat, longg):
@@ -99,6 +119,7 @@ def location(city, lat, longg):
     get_request = f"https://api.darksky.net/forecast/{KEY}/{lat},{longg}"
     weather = requests.get(get_request).json()
     weather_now = weather["currently"]
-    #print(json.dumps(weather["currently"], indent = 2))
+
+    # Get location info from DB and sent to location page as well
     print(weather_now)
     return render_template("location.html", city=city, lat=lat, longg=longg)
