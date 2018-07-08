@@ -112,14 +112,16 @@ def search(action):
             empty_search_field = "Nothing entered, nothing to search"
             return render_template("search.html", message=empty_search_field, user=session["user_id"], username=session["username"])
 
-@app.route("/results/<string:city>/<lat>/<longg>")
-def location(city, lat, longg):
+@app.route("/results/<string:city>/<zipcode>/<lat>/<longg>")
+def location(city, zipcode, lat, longg):
 
     KEY = "8565f94778670d37d36772bcc5b2a904"
     get_request = f"https://api.darksky.net/forecast/{KEY}/{lat},{longg}"
     weather = requests.get(get_request).json()
     weather_now = weather["currently"]
 
-    # Get location info from DB and sent to location page as well
+    # Get unique location info from DB and send to location page
+    unique_location = db.execute("SELECT zipcode, city, state, lat, long, population FROM locations WHERE zipcode = :zipcode", {"zipcode":zipcode}).fetchone()
+
     print(weather_now)
-    return render_template("location.html", city=city, lat=lat, longg=longg)
+    return render_template("location.html", city=city, lat=lat, longg=longg, zipcode=zipcode, zip_info=unique_location)
