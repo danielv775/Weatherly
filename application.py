@@ -124,4 +124,4 @@ def location(city, zipcode, lat, longg):
     unique_location = db.execute("SELECT zipcode, city, state, lat, long, population FROM locations WHERE zipcode = :zipcode", {"zipcode":zipcode}).fetchone()
 
     print(weather_now)
-    return render_template("location.html", city=city, lat=lat, longg=longg, zipcode=zipcode, zip_info=unique_location)
+    return render_template("location.html", city=city, lat=lat, longg=longg, zipcode=zipcode, zip_info=unique_location, weather_now=weather_now)

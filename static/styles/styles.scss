@@ -21,6 +21,10 @@ form {
     margin-right: auto;
 }
 
+.checkin-form {
+    width: 100%;
+}
+
 .login-register-btn {
     text-align: center;
 }
@@ -53,4 +57,13 @@ html, body {
 
 .link-result:hover {;
     color: $error-color;
+}
+
+ul {
+    text-align: left;
+    list-style-type: none;
+    li {
+        color: $text-color;
+        font-size: 225%;
+    }
 }

@@ -1,16 +1,46 @@
 {% extends "layout.html" %}
 
 {% block heading %}
-    Weather about {{city}} and {{lat}} and {{longg}} and {{zipcode}}
-    sdfsdf
-    {{zip_info.zipcode}}
+    Weather in {{city}}, {{zipcode}}
 {% endblock %}
 
 {% block body %}
 
     <body>
+        <br>
 
-        <p>Here is the weather</p>
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-4">
+                        <ul>
+                            <li><strong>Time</strong><br>{{weather_now["time"]}}</li>
+                            <li><strong>Latitude</strong><br>{{zip_info.lat}}</li>
+                            <li><strong>Longitude</strong><br>{{zip_info.long}}</li>
+                            <li><strong>Population</strong><br>{{zip_info.population}}</li>
+                        </ul>
+                    </div>
+                    <div class="col-4">
+                        <ul>
+                            <li><strong>Summary</strong><br>{{weather_now["summary"]}}</li>
+                            <li><strong>Temperature</strong><br>{{weather_now["temperature"]}}</li>
+                            <li><strong>Dew Point</strong><br>{{weather_now["dewPoint"]}}</li>
+                            <li><strong>Humidity</strong><br>{{weather_now["humidity"]}}</li>
+                        </ul>
+                    </div>
+                    <div class="col-4">
+                        <form class="checkin-form">
+                            <div class="form-group">
+                                <label class="field-label">Comment</label>
+                                <input type="text" name="comment" class="form-control" placeholder="Enter a comment">
+                            </div>
+                             <div class="login-register-btn">
+                                <button type="submit" name="submit" class="btn btn-primary" value="checkin">Checkin</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
 
     </body>
 
