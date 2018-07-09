@@ -1,14 +1,13 @@
 {% extends "layout.html" %}
 
 {% block heading %}
-    Enter a Location to View the Weather
+    <h3>Logged in as {{user}}</h3>
+    <h1>Enter a Location to View the Weather</h1>
 {% endblock %}
 
 {% block body %}
 
     <body>
-        <h1>Welcome, {{username}}, {{user}}</h1>
-
         <form action="{{ url_for('search', action='results') }}" method="post">
             <div>
                 <p>{{message}}</p>

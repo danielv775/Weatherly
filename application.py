@@ -49,7 +49,6 @@ def login():
                 # If username and pw correct, login and redirect to search page
                 session["user_id"] = db.execute("SELECT id FROM users WHERE username = :username ", {"username":username}).fetchall()[0][0]
                 session["username"] = username
-                #return render_template("search.html", username=username, user=session["user_id"])
                 return redirect(url_for('search', action='search'))
             else:
                 wrong_pw = "incorrect password for this username"
@@ -87,18 +86,25 @@ def register():
             pw_mismatch = "passwords do not match"
             return render_template("register.html", message=pw_mismatch)
 
-@app.route("/logged_out", methods=["POST"])
+@app.route("/logout", methods=["POST"])
 def logout():
-    if(session["user_id"]):
-        del session["user_id"]
-
-    return render_template("home.html")
+    try:
+        if session["user_id"] and session["username"]:
+            del session["user_id"]
+            del session["username"]
+            return render_template("home.html")
+    except Exception as e:
+        print(f"User already logged out. {e}")
+        return render_template("home.html")
 
 @app.route("/<string:action>", methods=["POST", "GET"])
 def search(action):
 
     if request.method == "GET":
-        return render_template("search.html", username=session["username"], user=session["user_id"])
+        try:
+            return render_template("search.html", user=session["username"])
+        except Exception as e:
+            return redirect(url_for("login"))
     elif request.method == "POST":
         search_string = request.form.get("search")
 
@@ -107,7 +113,7 @@ def search(action):
                 search_string = search_string.upper()
             search_string = f"{search_string}%"
             locations = db.execute("SELECT zipcode, city, state, lat, long, population FROM locations WHERE zipcode LIKE :search_string OR city LIKE :search_string", {"search_string": search_string}).fetchall()
-            return render_template("results.html", user=session["user_id"], locations=locations)
+            return render_template("results.html", user=session["username"], locations=locations)
         else:
             empty_search_field = "Nothing entered, nothing to search"
             return render_template("search.html", message=empty_search_field, user=session["user_id"], username=session["username"])
@@ -123,5 +129,4 @@ def location(city, zipcode, lat, longg):
     # Get unique location info from DB and send to location page
     unique_location = db.execute("SELECT zipcode, city, state, lat, long, population FROM locations WHERE zipcode = :zipcode", {"zipcode":zipcode}).fetchone()
 
-    print(weather_now)
-    return render_template("location.html", city=city, lat=lat, longg=longg, zipcode=zipcode, zip_info=unique_location, weather_now=weather_now)
+    return render_template("location.html", city=city, lat=lat, longg=longg, zipcode=zipcode, zip_info=unique_location, weather_now=weather_now, user=session["username"])

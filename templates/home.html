@@ -1,24 +1,30 @@
 {% extends "layout.html" %}
 
 {% block heading %}
-    Weatherly: A Weather App
+    <h1 class="home-intro">Weatherly: Weather App</h1>
 {% endblock %}
 
 {% block body %}
 
     <body class="bg">
 
-        <form action="{{ url_for('login') }}">
-            <div class="login-register-btn">
-                <button type="submit" name="login" class="btn btn-primary">Login</button>
+            <div class="video-bg show-video">
+                <div class="video-fg show-video">
+                    <iframe src="https://www.youtube.com/embed/9ZfN87gSjvI?start=68&autoplay=1&mute=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                </div>
             </div>
-        </form>
-        <br>
-        <form action="{{ url_for('register') }}">
-            <div class="login-register-btn">
-                <button type="submit" name="register" class="btn btn-primary">Register</button>
-            </div>
-        </form>
+            <br><br>
+            <form action="{{ url_for('login') }}">
+                <div class="login-register-btn">
+                    <button type="submit" name="login" class="btn btn-light intro-button">Login</button>
+                </div>
+            </form>
+            <br>
+            <form action="{{ url_for('register') }}">
+                <div class="login-register-btn">
+                    <button type="submit" name="register" class="btn btn-light intro-button">Register</button>
+                </div>
+            </form>
 
     </body>
 

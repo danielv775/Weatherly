@@ -1,14 +1,14 @@
 {% extends "layout.html" %}
 
 {% block heading %}
-    Weather in {{city}}, {{zipcode}}
+    <h3>Logged in as {{user}}</h3>
+    <h1>Weather in {{city}} {{zip_info.state}}, {{zipcode}}</h1>
 {% endblock %}
 
 {% block body %}
 
     <body>
         <br>
-
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-4">
@@ -28,13 +28,16 @@
                         </ul>
                     </div>
                     <div class="col-4">
-                        <form class="checkin-form">
+                        <ul>
+                            <li><strong>Users Checked In</strong><br>   5</li>
+                        </ul>
+                        <form action="{{ url_for('location') }}" class="checkin-form">
                             <div class="form-group">
-                                <label class="field-label">Comment</label>
-                                <input type="text" name="comment" class="form-control" placeholder="Enter a comment">
+                                <label class="field-label">Comment, {{user}}</label>
+                                <textarea name="comment" class="form-control comment-input" form="checkin-form"></textarea>
                             </div>
                              <div class="login-register-btn">
-                                <button type="submit" name="submit" class="btn btn-primary" value="checkin">Checkin</button>
+                                <button type="submit" name="submit" class="btn btn-light intro-button" value="checkin">Check In</button>
                             </div>
                         </form>
                     </div>
