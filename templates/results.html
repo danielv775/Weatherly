@@ -21,8 +21,8 @@
             <tbody>
                 {% for location in locations %}
                     <tr>
-                        <td><a class="link-result" href="{{ url_for('location', city=location.city, lat=location.lat, longg=location.long, zipcode=location.zipcode) }}">{{location.zipcode}}</a></td>
-                        <td><a class="link-result" href="{{ url_for('location', city=location.city, lat=location.lat, longg=location.long, zipcode=location.zipcode) }}">{{location.city}}</a></td>
+                        <td><a class="link-result" href="{{ url_for('location', city=location.city, lat=location.lat, longg=location.long, zipcode=location.zipcode, check_in='NO') }}">{{location.zipcode}}</a></td>
+                        <td><a class="link-result" href="{{ url_for('location', city=location.city, lat=location.lat, longg=location.long, zipcode=location.zipcode, check_in='NO') }}">{{location.city}}</a></td>
                         <td>{{location.state}}</td>
                         <td>{{location.lat}}</td>
                         <td>{{location.long}}</td>

@@ -29,9 +29,9 @@
                     </div>
                     <div class="col-4">
                         <ul>
-                            <li><strong>Users Checked In</strong><br>   5</li>
+                            <li><strong>Users Checked In</strong><br>{{check_in_count}}</li>
                         </ul>
-                        <form action="{{ url_for('location') }}" class="checkin-form">
+                        <form action="{{ url_for('location', city=city, lat=zip_info.lat, longg=zip_info.long, zipcode=zipcode, check_in='YES') }}" class="checkin-form" method="post">
                             <div class="form-group">
                                 <label class="field-label">Comment, {{user}}</label>
                                 <textarea name="comment" class="form-control comment-input" form="checkin-form"></textarea>

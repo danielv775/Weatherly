@@ -47,24 +47,18 @@ def create_tables():
 def main():
 
     # Create DB Tables
-    create_tables()
+    #create_tables()
 
     # Read Location Data
     data_df = read_data()
     data_df.columns = ["zipcode", "city", "state", "lat", "long", "population"]
-
-    # Cast Zipcode to string and add leading zeros to zip codes of length 4
     data_df["zipcode"] = data_df["zipcode"].astype(str)
-    mask = (data_df["zipcode"].str.len() == 4)
-    data_df.loc[mask, "zipcode"] = data_df.loc[mask, "zipcode"].apply(lambda zip_code: f"0{zip_code}")
-
-    '''
-    # Ensure all zip codes are 5 digit strings
-    mask_two = (data_df["zipcode"].str.len() == 5)
-    print(len(data_df.loc[mask_two, "zipcode"]))
-    '''
+    # Cast Zipcode to string and add leading zeros to zip codes of length 4
+    mask_one = (data_df["zipcode"].str.len() == 4)
+    #data_df.loc[mask, "zipcode"] = data_df.loc[mask, "zipcode"].apply(lambda zip_code: f"0{zip_code}")
 
     # Insert each row from zips_updated.csv into Locations table
+    '''
     for row in data_df.iterrows():
         zip_code = row[1][0]
         city = row[1][1]
@@ -78,7 +72,7 @@ def main():
         print(f"Added location with Zipcode: {zip_code}, City: {city}, State: {state}, lat: {lat}, long: {longg}, population: {population}")
 
     db.commit()
-
+    '''
 
     '''
     to_sql not working

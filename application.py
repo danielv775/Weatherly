@@ -118,8 +118,8 @@ def search(action):
             empty_search_field = "Nothing entered, nothing to search"
             return render_template("search.html", message=empty_search_field, user=session["user_id"], username=session["username"])
 
-@app.route("/results/<string:city>/<zipcode>/<lat>/<longg>")
-def location(city, zipcode, lat, longg):
+@app.route("/results/<string:city>/<zipcode>/<lat>/<longg>/<string:check_in>", methods=["POST", "GET"])
+def location(city, zipcode, lat, longg, check_in):
 
     KEY = "8565f94778670d37d36772bcc5b2a904"
     get_request = f"https://api.darksky.net/forecast/{KEY}/{lat},{longg}"
@@ -129,4 +129,14 @@ def location(city, zipcode, lat, longg):
     # Get unique location info from DB and send to location page
     unique_location = db.execute("SELECT zipcode, city, state, lat, long, population FROM locations WHERE zipcode = :zipcode", {"zipcode":zipcode}).fetchone()
 
-    return render_template("location.html", city=city, lat=lat, longg=longg, zipcode=zipcode, zip_info=unique_location, weather_now=weather_now, user=session["username"])
+    # User submitting comment and checking into location
+    if request.method == "POST":
+        if check_in == "YES":
+            comment = request.form.get("comment")
+            print(comment)
+            print("User is checking in and submitting comment")
+
+    check_in_count = db.execute("SELECT zipcode FROM comments JOIN locations ON locations.id = comments.location_id WHERE locations.zipcode = :zipcode", {"zipcode":zipcode}).rowcount
+
+    return render_template("location.html", city=city, lat=lat, longg=longg, zipcode=zipcode, zip_info=unique_location, check_in_count=check_in_count, weather_now=weather_now, user=session["username"])
+
