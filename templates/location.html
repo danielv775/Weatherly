@@ -1,13 +1,18 @@
 {% extends "layout.html" %}
 
 {% block heading %}
-    <h3>Logged in as {{user}}</h3>
+    <h3 class="location-user">Logged in as {{user}}</h3>
+    <form action="{{ url_for('logout') }}" method="post">
+        <div class="logout-position">
+            <button type="submit" name="submit" class="btn btn-light intro-button" value="Logout">Logout</button>
+        </div>
+    </form>
     <h1>Weather in {{city}} {{zip_info.state}}, {{zipcode}}</h1>
 {% endblock %}
 
 {% block body %}
 
-    <body>
+    <body class="location-bg">
         <br>
             <div class="container">
                 <div class="row justify-content-center">
@@ -28,9 +33,6 @@
                         </ul>
                     </div>
                     <div class="col-4">
-                        <ul>
-                            <li><strong>Users Checked In</strong><br>{{check_in_count}}</li>
-                        </ul>
                         <form action="{{ url_for('location', city=city, lat=zip_info.lat, longg=zip_info.long, zipcode=zipcode, check_in='YES') }}" class="checkin-form" method="post">
                             <div class="form-group">
                                 <p>{{message}}</p>
@@ -38,11 +40,30 @@
                                 <textarea name="comment" class="form-control comment-input"></textarea>
                             </div>
                             <div class="login-register-btn">
-                                <input type="submit" class="btn btn-light intro-button" value="Check In">
+                                <input type="submit" class="btn btn-light comment-button" value="Check In">
                             </div>
                         </form>
+                        <br>
+                        <ul>
+                            <li><strong>Users Checked In</strong><br>{{check_in_count}}</li>
+                        </ul>
                     </div>
                 </div>
+            </div>
+
+            <br>
+            <h2 class="header-comments">Comments</h2>
+            <div class="comment-container">
+                <ul class="list-unstyled">
+                    {% for comm in comments_at_location %}
+                        <li class="media comment-item">
+                            <div class="media-body">
+                                <h5 class="mt-0 mb-1 comment-user">{{comm.username}}</h5>
+                                <div class="comment-comment">{{comm.comment}}</div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
             </div>
 
 

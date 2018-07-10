@@ -5,15 +5,22 @@ $font-stack: 'PT Sans Caption', sans-serif;
 $font-stack-alt: 'Lobster', sans-serif;
 
 %big-header {
-    text-align: center;
-    margin-top: 100px;
     color: $text-color;
     font-weight: bold;
     font-family: $font-stack-alt;
 }
 
+.header-comments {
+    @extend %big-header;
+    font-size: 250%;
+    margin-left: 25%;
+    text-align: left;
+}
+
 h1 {
     @extend %big-header;
+    margin-top: 100px;
+    text-align: center;
 }
 
 .home-intro {
@@ -21,6 +28,7 @@ h1 {
     font-size: 650%;
     margin-left: 5px;
     margin-right: 5px;
+    text-align: center;
 }
 
 h3 {
@@ -43,24 +51,39 @@ form {
     margin-right: auto;
 }
 
-.intro-button {
-    width: 200px;
+%my-button {
     height: 50px;
     color: white;
     background-color: $text-color;
 }
 
-.intro-button:hover {
+.intro-button {
+    @extend %my-button;
+    width: 200px;
+}
+
+.comment-button {
+    @extend %my-button;
+    width: 275px;
+}
+
+.intro-button:hover, .comment-button:hover {
     background-color: white;
     color: $text-color;
 }
 
 .checkin-form {
-    width: 100%;
+    width: 80%;
 }
 
 .login-register-btn {
     text-align: center;
+}
+
+.logout-position {
+    position: absolute;
+    top: 55px;
+    right: 16px;
 }
 
 html, body {
@@ -76,6 +99,21 @@ html, body {
     background-position: 50% 70%;
     background-repeat: no-repeat;
     background-size: cover;
+}
+
+.location-bg {
+    background-image: url("https://farm4.staticflickr.com/3928/15342852425_69c2cf734a_b.jpg");
+
+    margin: 0;
+    height: 100%;
+
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.location-user {
+    color: white;
 }
 
 .video-bg {
@@ -118,9 +156,30 @@ html, body {
     font-family: $font-stack;
 }
 
+.field-search-label {
+    color: $text-color;
+    font-weight: bold;
+    font-family: $font-stack;
+}
+
 .comment-input {
-    height: 150px;
+    height: 100px;
     resize: none;
+}
+
+.comment-container {
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    .comment-item {
+        text-align: left;
+        .comment-user {
+            font-size: 110%;
+        }
+        .comment-comment {
+            font-size: 65%;
+        }
+    }
 }
 
 .link-result:link, .link-result:visited {

@@ -1,14 +1,22 @@
-h1, .home-intro {
-  text-align: center;
-  margin-top: 100px;
+.header-comments, h1, .home-intro {
   color: #001a6b;
   font-weight: bold;
   font-family: "Lobster", sans-serif; }
 
+.header-comments {
+  font-size: 250%;
+  margin-left: 25%;
+  text-align: left; }
+
+h1 {
+  margin-top: 100px;
+  text-align: center; }
+
 .home-intro {
   font-size: 650%;
   margin-left: 5px;
-  margin-right: 5px; }
+  margin-right: 5px;
+  text-align: center; }
 
 h3 {
   text-align: right;
@@ -27,21 +35,31 @@ form {
   margin-left: auto;
   margin-right: auto; }
 
-.intro-button {
-  width: 200px;
+.intro-button, .comment-button {
   height: 50px;
   color: white;
   background-color: #001a6b; }
 
-.intro-button:hover {
+.intro-button {
+  width: 200px; }
+
+.comment-button {
+  width: 275px; }
+
+.intro-button:hover, .comment-button:hover {
   background-color: white;
   color: #001a6b; }
 
 .checkin-form {
-  width: 100%; }
+  width: 80%; }
 
 .login-register-btn {
   text-align: center; }
+
+.logout-position {
+  position: absolute;
+  top: 55px;
+  right: 16px; }
 
 html, body {
   min-height: 100%; }
@@ -53,6 +71,17 @@ html, body {
   background-position: 50% 70%;
   background-repeat: no-repeat;
   background-size: cover; }
+
+.location-bg {
+  background-image: url("https://farm4.staticflickr.com/3928/15342852425_69c2cf734a_b.jpg");
+  margin: 0;
+  height: 100%;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-size: cover; }
+
+.location-user {
+  color: white; }
 
 .video-bg {
   background: #000;
@@ -86,9 +115,25 @@ html, body {
   font-weight: bold;
   font-family: "PT Sans Caption", sans-serif; }
 
+.field-search-label {
+  color: #001a6b;
+  font-weight: bold;
+  font-family: "PT Sans Caption", sans-serif; }
+
 .comment-input {
-  height: 150px;
+  height: 100px;
   resize: none; }
+
+.comment-container {
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%; }
+  .comment-container .comment-item {
+    text-align: left; }
+    .comment-container .comment-item .comment-user {
+      font-size: 110%; }
+    .comment-container .comment-item .comment-comment {
+      font-size: 65%; }
 
 .link-result:link, .link-result:visited {
   text-decoration: none;

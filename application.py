@@ -120,7 +120,7 @@ def search(action):
         else:
             empty_search_field = "Nothing entered, nothing to search"
             try:
-                return render_template("search.html", message=empty_search_field, user=session["user_id"], username=session["username"])
+                return render_template("search.html", message=empty_search_field, user=session["username"])
             except Exception as e:
                 return redirect(url_for("login"))
 
@@ -134,22 +134,25 @@ def location(city, zipcode, lat, longg, check_in):
 
     # Get unique location info from DB and send to location page
     unique_location = db.execute("SELECT zipcode, city, state, lat, long, population FROM locations WHERE zipcode = :zipcode", {"zipcode":zipcode}).fetchone()
+    location_id = db.execute("SELECT id FROM locations WHERE zipcode = :zipcode", {"zipcode":zipcode}).fetchone()[0]
 
     # User submitting comment and checking into location
     comment = request.form.get("comment")
     if (check_in == "YES") and (comment != ""):
         user_comments = db.execute("SELECT user_id, zipcode FROM comments JOIN locations ON locations.id = comments.location_id WHERE locations.zipcode = :zipcode AND comments.user_id = :user_id", {"zipcode":zipcode, "user_id": session["user_id"]}).rowcount
         if user_comments == 0:
-            location_id = db.execute("SELECT id FROM locations WHERE zipcode = :zipcode", {"zipcode":zipcode}).fetchone()[0]
             db.execute("INSERT INTO comments (comment, user_id, location_id) VALUES (:comment, :user_id, :location_id)", {"comment": comment, "user_id": session["user_id"], "location_id": location_id})
             db.commit()
             check_in_count = db.execute("SELECT zipcode FROM comments JOIN locations ON locations.id = comments.location_id WHERE locations.zipcode = :zipcode", {"zipcode":zipcode}).rowcount
-            return render_template("location.html", city=city, lat=lat, longg=longg, zipcode=zipcode, zip_info=unique_location, check_in_count=check_in_count, weather_now=weather_now, user=session["username"])
+            comments_at_location = db.execute("SELECT username, comment FROM comments JOIN users ON users.id = comments.user_id WHERE location_id = :location_id", {"location_id":location_id}).fetchall()
+            return render_template("location.html", city=city, lat=lat, longg=longg, zipcode=zipcode, zip_info=unique_location, check_in_count=check_in_count, weather_now=weather_now, user=session["username"], comments_at_location=comments_at_location)
         else:
             check_in_count = db.execute("SELECT zipcode FROM comments JOIN locations ON locations.id = comments.location_id WHERE locations.zipcode = :zipcode", {"zipcode":zipcode}).rowcount
+            comments_at_location = db.execute("SELECT username, comment FROM comments JOIN users ON users.id = comments.user_id WHERE location_id = :location_id", {"location_id":location_id}).fetchall()
             comment_error = "You cannot check in again to the same location"
-            return render_template("location.html", city=city, lat=lat, longg=longg, zipcode=zipcode, zip_info=unique_location, check_in_count=check_in_count, weather_now=weather_now, user=session["username"], message=comment_error)
+            return render_template("location.html", city=city, lat=lat, longg=longg, zipcode=zipcode, zip_info=unique_location, check_in_count=check_in_count, weather_now=weather_now, user=session["username"], comments_at_location=comments_at_location, message=comment_error)
 
+    comments_at_location = db.execute("SELECT username, comment FROM comments JOIN users ON users.id = comments.user_id WHERE location_id = :location_id", {"location_id":location_id}).fetchall()
     check_in_count = db.execute("SELECT zipcode FROM comments JOIN locations ON locations.id = comments.location_id WHERE locations.zipcode = :zipcode", {"zipcode":zipcode}).rowcount
-    return render_template("location.html", city=city, lat=lat, longg=longg, zipcode=zipcode, zip_info=unique_location, check_in_count=check_in_count, weather_now=weather_now, user=session["username"])
+    return render_template("location.html", city=city, lat=lat, longg=longg, zipcode=zipcode, zip_info=unique_location, check_in_count=check_in_count, weather_now=weather_now, user=session["username"], comments_at_location=comments_at_location)
 

@@ -2,6 +2,11 @@
 
 {% block heading %}
     <h3>Logged in as {{user}}</h3>
+    <form action="{{ url_for('logout') }}" method="post">
+        <div class="logout-position">
+            <button type="submit" name="submit" class="btn btn-light intro-button" value="Logout">Logout</button>
+        </div>
+    </form>
     <h1>Results</h1>
 {% endblock %}
 
