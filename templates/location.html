@@ -33,11 +33,12 @@
                         </ul>
                         <form action="{{ url_for('location', city=city, lat=zip_info.lat, longg=zip_info.long, zipcode=zipcode, check_in='YES') }}" class="checkin-form" method="post">
                             <div class="form-group">
+                                <p>{{message}}</p>
                                 <label class="field-label">Comment, {{user}}</label>
-                                <textarea name="comment" class="form-control comment-input" form="checkin-form"></textarea>
+                                <textarea name="comment" class="form-control comment-input"></textarea>
                             </div>
-                             <div class="login-register-btn">
-                                <button type="submit" name="submit" class="btn btn-light intro-button" value="checkin">Check In</button>
+                            <div class="login-register-btn">
+                                <input type="submit" class="btn btn-light intro-button" value="Check In">
                             </div>
                         </form>
                     </div>

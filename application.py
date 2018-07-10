@@ -113,10 +113,16 @@ def search(action):
                 search_string = search_string.upper()
             search_string = f"{search_string}%"
             locations = db.execute("SELECT zipcode, city, state, lat, long, population FROM locations WHERE zipcode LIKE :search_string OR city LIKE :search_string", {"search_string": search_string}).fetchall()
-            return render_template("results.html", user=session["username"], locations=locations)
+            try:
+                return render_template("results.html", user=session["username"], locations=locations)
+            except Exception as e:
+                return redirect(url_for("login"))
         else:
             empty_search_field = "Nothing entered, nothing to search"
-            return render_template("search.html", message=empty_search_field, user=session["user_id"], username=session["username"])
+            try:
+                return render_template("search.html", message=empty_search_field, user=session["user_id"], username=session["username"])
+            except Exception as e:
+                return redirect(url_for("login"))
 
 @app.route("/results/<string:city>/<zipcode>/<lat>/<longg>/<string:check_in>", methods=["POST", "GET"])
 def location(city, zipcode, lat, longg, check_in):
@@ -130,13 +136,20 @@ def location(city, zipcode, lat, longg, check_in):
     unique_location = db.execute("SELECT zipcode, city, state, lat, long, population FROM locations WHERE zipcode = :zipcode", {"zipcode":zipcode}).fetchone()
 
     # User submitting comment and checking into location
-    if request.method == "POST":
-        if check_in == "YES":
-            comment = request.form.get("comment")
-            print(comment)
-            print("User is checking in and submitting comment")
+    comment = request.form.get("comment")
+    if (check_in == "YES") and (comment != ""):
+        user_comments = db.execute("SELECT user_id, zipcode FROM comments JOIN locations ON locations.id = comments.location_id WHERE locations.zipcode = :zipcode AND comments.user_id = :user_id", {"zipcode":zipcode, "user_id": session["user_id"]}).rowcount
+        if user_comments == 0:
+            location_id = db.execute("SELECT id FROM locations WHERE zipcode = :zipcode", {"zipcode":zipcode}).fetchone()[0]
+            db.execute("INSERT INTO comments (comment, user_id, location_id) VALUES (:comment, :user_id, :location_id)", {"comment": comment, "user_id": session["user_id"], "location_id": location_id})
+            db.commit()
+            check_in_count = db.execute("SELECT zipcode FROM comments JOIN locations ON locations.id = comments.location_id WHERE locations.zipcode = :zipcode", {"zipcode":zipcode}).rowcount
+            return render_template("location.html", city=city, lat=lat, longg=longg, zipcode=zipcode, zip_info=unique_location, check_in_count=check_in_count, weather_now=weather_now, user=session["username"])
+        else:
+            check_in_count = db.execute("SELECT zipcode FROM comments JOIN locations ON locations.id = comments.location_id WHERE locations.zipcode = :zipcode", {"zipcode":zipcode}).rowcount
+            comment_error = "You cannot check in again to the same location"
+            return render_template("location.html", city=city, lat=lat, longg=longg, zipcode=zipcode, zip_info=unique_location, check_in_count=check_in_count, weather_now=weather_now, user=session["username"], message=comment_error)
 
     check_in_count = db.execute("SELECT zipcode FROM comments JOIN locations ON locations.id = comments.location_id WHERE locations.zipcode = :zipcode", {"zipcode":zipcode}).rowcount
-
     return render_template("location.html", city=city, lat=lat, longg=longg, zipcode=zipcode, zip_info=unique_location, check_in_count=check_in_count, weather_now=weather_now, user=session["username"])
 
