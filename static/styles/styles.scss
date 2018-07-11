@@ -51,15 +51,27 @@ form {
     margin-right: auto;
 }
 
+.results-form {
+    width: 50%;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
 %my-button {
     height: 50px;
     color: white;
     background-color: $text-color;
 }
 
-.results-button {
+.results-city-button {
     @extend %my-button;
-    width: 150px;
+    width: 240px;
+}
+
+.results-zip-button {
+    @extend %my-button;
+    width: 100px;
+
 }
 
 .intro-button {
@@ -72,7 +84,7 @@ form {
     width: 275px;
 }
 
-.intro-button:hover, .comment-button:hover, .results-button:hover {
+.intro-button:hover, .comment-button:hover, .results-city-button:hover, .results-zip-button:hover {
     background-color: white;
     color: $text-color;
 }

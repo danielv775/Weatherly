@@ -35,13 +35,21 @@ form {
   margin-left: auto;
   margin-right: auto; }
 
-.results-button, .intro-button, .comment-button {
+.results-form {
+  width: 50%;
+  margin-left: 0px;
+  margin-right: 0px; }
+
+.results-city-button, .results-zip-button, .intro-button, .comment-button {
   height: 50px;
   color: white;
   background-color: #001a6b; }
 
-.results-button {
-  width: 150px; }
+.results-city-button {
+  width: 240px; }
+
+.results-zip-button {
+  width: 100px; }
 
 .intro-button {
   width: 200px; }
@@ -49,7 +57,7 @@ form {
 .comment-button {
   width: 275px; }
 
-.intro-button:hover, .comment-button:hover, .results-button:hover {
+.intro-button:hover, .comment-button:hover, .results-city-button:hover, .results-zip-button:hover {
   background-color: white;
   color: #001a6b; }
 

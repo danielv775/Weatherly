@@ -13,7 +13,7 @@
 {% block body %}
 
     <body>
-        <div class="table-responsive-sm">
+        <div class="table-responsive-lg">
             <table class="table table-striped">
                 <thead>
                     <th scope="col">Zipcode</th>
@@ -31,16 +31,16 @@
                             <td><a class="link-result" href="{{ url_for('location', city=location.city, lat=location.lat, longg=location.long, zipcode=location.zipcode, check_in='NO') }}">{{location.city}}</a></td>
                             -->
                             <td>
-                                <form action="{{ url_for('location', city=location.city, lat=location.lat, longg=location.long, zipcode=location.zipcode, check_in='NO') }}">
+                                <form class="results-form" action="{{ url_for('location', city=location.city, lat=location.lat, longg=location.long, zipcode=location.zipcode, check_in='NO') }}">
                                     <div class="login-register-btn">
-                                        <button type="submit" name="submit" class="btn btn-light results-button" value="Location">{{location.zipcode}}</button>
+                                        <button type="submit" name="submit" class="btn btn-light results-zip-button" value="Location">{{location.zipcode}}</button>
                                     </div>
                                 </form>
                             </td>
                             <td>
-                                <form action="{{ url_for('location', city=location.city, lat=location.lat, longg=location.long, zipcode=location.zipcode, check_in='NO') }}">
+                                <form class="results-form" action="{{ url_for('location', city=location.city, lat=location.lat, longg=location.long, zipcode=location.zipcode, check_in='NO') }}">
                                     <div class="login-register-btn">
-                                        <button type="submit" name="submit" class="btn btn-light results-button" value="Location">{{location.city}}</button>
+                                        <button type="submit" name="submit" class="btn btn-light results-city-button" value="Location">{{location.city}}</button>
                                     </div>
                                 </form>
                             </td>
