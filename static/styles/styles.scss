@@ -41,7 +41,7 @@ h3 {
 }
 
 p {
-    color: $error-color;
+    color: white;
     font-family: $font-stack;
 }
 
@@ -131,9 +131,33 @@ html, body {
     height: 100%;
 }
 
+
 @media (max-width: 992px) {
     .show-video {
         visibility: hidden;
+    }
+
+    ul {
+        text-align: center;
+        list-style-type: none;
+            li {
+                color: $text-color;
+                font-size: 225%;
+                font-family: $font-stack;
+            }
+    }
+}
+
+@media (min-width: 993px) {
+
+    ul {
+        text-align: left;
+        list-style-type: none;
+            li {
+                color: $text-color;
+                font-size: 225%;
+                font-family: $font-stack;
+            }
     }
 }
 
@@ -189,14 +213,4 @@ html, body {
 
 .link-result:hover {;
     color: $error-color;
-}
-
-ul {
-    text-align: left;
-    list-style-type: none;
-    li {
-        color: $text-color;
-        font-size: 225%;
-        font-family: $font-stack;
-    }
 }

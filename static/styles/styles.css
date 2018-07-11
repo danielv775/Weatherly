@@ -27,7 +27,7 @@ h3 {
   font-family: "PT Sans Caption", sans-serif; }
 
 p {
-  color: #bc2105;
+  color: white;
   font-family: "PT Sans Caption", sans-serif; }
 
 form {
@@ -101,7 +101,23 @@ html, body {
 
 @media (max-width: 992px) {
   .show-video {
-    visibility: hidden; } }
+    visibility: hidden; }
+
+  ul {
+    text-align: center;
+    list-style-type: none; }
+    ul li {
+      color: #001a6b;
+      font-size: 225%;
+      font-family: "PT Sans Caption", sans-serif; } }
+@media (min-width: 993px) {
+  ul {
+    text-align: left;
+    list-style-type: none; }
+    ul li {
+      color: #001a6b;
+      font-size: 225%;
+      font-family: "PT Sans Caption", sans-serif; } }
 @media (min-aspect-ratio: 16 / 9) {
   .video-foreground {
     height: 300%;
@@ -141,13 +157,5 @@ html, body {
 
 .link-result:hover {
   color: #bc2105; }
-
-ul {
-  text-align: left;
-  list-style-type: none; }
-  ul li {
-    color: #001a6b;
-    font-size: 225%;
-    font-family: "PT Sans Caption", sans-serif; }
 
 /*# sourceMappingURL=styles.css.map */

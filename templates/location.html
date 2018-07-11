@@ -16,7 +16,7 @@
         <br>
             <div class="container">
                 <div class="row justify-content-center">
-                    <div class="col-4">
+                    <div class="col-lg-4">
                         <ul>
                             <li><strong>Time</strong><br>{{weather_now["time"]}}</li>
                             <li><strong>Latitude</strong><br>{{zip_info.lat}}</li>
@@ -24,15 +24,15 @@
                             <li><strong>Population</strong><br>{{zip_info.population}}</li>
                         </ul>
                     </div>
-                    <div class="col-4">
+                    <div class="col-lg-4">
                         <ul>
                             <li><strong>Summary</strong><br>{{weather_now["summary"]}}</li>
                             <li><strong>Temperature</strong><br>{{weather_now["temperature"]}}</li>
                             <li><strong>Dew Point</strong><br>{{weather_now["dewPoint"]}}</li>
-                            <li><strong>Humidity</strong><br>{{weather_now["humidity"]}}</li>
+                            <li><strong>Humidity</strong><br>{{humidity}}</li>
                         </ul>
                     </div>
-                    <div class="col-4">
+                    <div class="col-lg-4">
                         <form action="{{ url_for('location', city=city, lat=zip_info.lat, longg=zip_info.long, zipcode=zipcode, check_in='YES') }}" class="checkin-form" method="post">
                             <div class="form-group">
                                 <p>{{message}}</p>
