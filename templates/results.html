@@ -13,29 +13,46 @@
 {% block body %}
 
     <body>
-
-        <table class="table table-striped">
-            <thead>
-                <th scope="col">Zipcode</th>
-                <th scope="col">City</th>
-                <th scope="col">State</th>
-                <th scope="col">Latitude</th>
-                <th scope="col">Longitude</th>
-                <th scope="col">Population</th>
-            </thead>
-            <tbody>
-                {% for location in locations %}
-                    <tr>
-                        <td><a class="link-result" href="{{ url_for('location', city=location.city, lat=location.lat, longg=location.long, zipcode=location.zipcode, check_in='NO') }}">{{location.zipcode}}</a></td>
-                        <td><a class="link-result" href="{{ url_for('location', city=location.city, lat=location.lat, longg=location.long, zipcode=location.zipcode, check_in='NO') }}">{{location.city}}</a></td>
-                        <td>{{location.state}}</td>
-                        <td>{{location.lat}}</td>
-                        <td>{{location.long}}</td>
-                        <td>{{location.population}}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <div class="table-responsive-sm">
+            <table class="table table-striped">
+                <thead>
+                    <th scope="col">Zipcode</th>
+                    <th scope="col">City</th>
+                    <th scope="col">State</th>
+                    <th scope="col">Latitude</th>
+                    <th scope="col">Longitude</th>
+                    <th scope="col">Population</th>
+                </thead>
+                <tbody>
+                    {% for location in locations %}
+                        <tr>
+                            <!--
+                            <td><a class="link-result" href="{{ url_for('location', city=location.city, lat=location.lat, longg=location.long, zipcode=location.zipcode, check_in='NO') }}">{{location.zipcode}}</a></td>
+                            <td><a class="link-result" href="{{ url_for('location', city=location.city, lat=location.lat, longg=location.long, zipcode=location.zipcode, check_in='NO') }}">{{location.city}}</a></td>
+                            -->
+                            <td>
+                                <form action="{{ url_for('location', city=location.city, lat=location.lat, longg=location.long, zipcode=location.zipcode, check_in='NO') }}">
+                                    <div class="login-register-btn">
+                                        <button type="submit" name="submit" class="btn btn-light results-button" value="Location">{{location.zipcode}}</button>
+                                    </div>
+                                </form>
+                            </td>
+                            <td>
+                                <form action="{{ url_for('location', city=location.city, lat=location.lat, longg=location.long, zipcode=location.zipcode, check_in='NO') }}">
+                                    <div class="login-register-btn">
+                                        <button type="submit" name="submit" class="btn btn-light results-button" value="Location">{{location.city}}</button>
+                                    </div>
+                                </form>
+                            </td>
+                            <td>{{location.state}}</td>
+                            <td>{{location.lat}}</td>
+                            <td>{{location.long}}</td>
+                            <td>{{location.population}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
 
     </body>
 

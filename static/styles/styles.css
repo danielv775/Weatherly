@@ -35,10 +35,13 @@ form {
   margin-left: auto;
   margin-right: auto; }
 
-.intro-button, .comment-button {
+.results-button, .intro-button, .comment-button {
   height: 50px;
   color: white;
   background-color: #001a6b; }
+
+.results-button {
+  width: 150px; }
 
 .intro-button {
   width: 200px; }
@@ -46,7 +49,7 @@ form {
 .comment-button {
   width: 275px; }
 
-.intro-button:hover, .comment-button:hover {
+.intro-button:hover, .comment-button:hover, .results-button:hover {
   background-color: white;
   color: #001a6b; }
 

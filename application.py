@@ -5,6 +5,7 @@ from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from hashlib import sha256
+from datetime import datetime
 
 import requests, json
 
@@ -144,6 +145,7 @@ def location(city, zipcode, lat, longg, check_in):
     weather_now = weather["currently"]
     humidity = weather_now["humidity"] * 100
     humidity = f"{humidity}%"
+    human_time = datetime.fromtimestamp(int(weather_now["time"])).strftime('%Y-%m-%d %H:%M:%S UTC')
 
     # Get unique location info from DB and send to location page
     unique_location = db.execute("SELECT zipcode, city, state, lat, long, population FROM locations WHERE zipcode = :zipcode", {"zipcode":zipcode}).fetchone()
@@ -159,7 +161,7 @@ def location(city, zipcode, lat, longg, check_in):
             check_in_count = db.execute("SELECT zipcode FROM comments JOIN locations ON locations.id = comments.location_id WHERE locations.zipcode = :zipcode", {"zipcode":zipcode}).rowcount
             comments_at_location = db.execute("SELECT username, comment FROM comments JOIN users ON users.id = comments.user_id WHERE location_id = :location_id", {"location_id":location_id}).fetchall()
             try:
-                return render_template("location.html", city=city, lat=lat, longg=longg, zipcode=zipcode, zip_info=unique_location, check_in_count=check_in_count, weather_now=weather_now, humidity=humidity, user=session["username"], comments_at_location=comments_at_location)
+                return render_template("location.html", city=city, lat=lat, longg=longg, zipcode=zipcode, zip_info=unique_location, check_in_count=check_in_count, weather_now=weather_now, humidity=humidity, human_time=human_time, user=session["username"], comments_at_location=comments_at_location)
             except Exception as e:
                 return redirect(url_for("login"))
         else:
@@ -167,14 +169,14 @@ def location(city, zipcode, lat, longg, check_in):
             comments_at_location = db.execute("SELECT username, comment FROM comments JOIN users ON users.id = comments.user_id WHERE location_id = :location_id", {"location_id":location_id}).fetchall()
             comment_error = "You Cannot Check In Again to the Same Location"
             try:
-                return render_template("location.html", city=city, lat=lat, longg=longg, zipcode=zipcode, zip_info=unique_location, check_in_count=check_in_count, weather_now=weather_now, humidity=humidity, user=session["username"], comments_at_location=comments_at_location, message=comment_error)
+                return render_template("location.html", city=city, lat=lat, longg=longg, zipcode=zipcode, zip_info=unique_location, check_in_count=check_in_count, weather_now=weather_now, humidity=humidity, human_time=human_time, user=session["username"], comments_at_location=comments_at_location, message=comment_error)
             except Exception as e:
                 return redirect(url_for("login"))
 
     comments_at_location = db.execute("SELECT username, comment FROM comments JOIN users ON users.id = comments.user_id WHERE location_id = :location_id", {"location_id":location_id}).fetchall()
     check_in_count = db.execute("SELECT zipcode FROM comments JOIN locations ON locations.id = comments.location_id WHERE locations.zipcode = :zipcode", {"zipcode":zipcode}).rowcount
     try:
-        return render_template("location.html", city=city, lat=lat, longg=longg, zipcode=zipcode, zip_info=unique_location, check_in_count=check_in_count, weather_now=weather_now, humidity=humidity, user=session["username"], comments_at_location=comments_at_location)
+        return render_template("location.html", city=city, lat=lat, longg=longg, zipcode=zipcode, zip_info=unique_location, check_in_count=check_in_count, weather_now=weather_now, human_time=human_time, humidity=humidity, user=session["username"], comments_at_location=comments_at_location)
     except Exception as e:
         return redirect(url_for("login"))
 
