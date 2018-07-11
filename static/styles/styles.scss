@@ -192,16 +192,19 @@ html, body {
 }
 
 .comment-container {
+    overflow-y: scroll;
     margin-left: auto;
     margin-right: auto;
     width: 50%;
+    height: 160px;
+    margin-bottom: 40px;
     .comment-item {
         text-align: left;
         .comment-user {
-            font-size: 110%;
+            font-size: 58%;
         }
         .comment-comment {
-            font-size: 65%;
+            font-size: 35%;
         }
     }
 }
