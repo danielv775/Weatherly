@@ -2,6 +2,9 @@
 
 Web Programming with Python and JavaScript
 
+The website is live at the following URL
+<a href="https://weatherlyy.herokuapp.com/">https://weatherlyy.herokuapp.com/</a>
+
 <h1>HTML</h1>
 
 <h2>layout.html</h2>
