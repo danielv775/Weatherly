@@ -89,3 +89,10 @@ this command kept hanging, so I resorted to iterating through the rows of the da
 
 <h2>zips_updated.csv</h2>
 <p>zips_updated.csv was the newly sent out location file that I used in import.py to populate my locations table in my DB</p>
+
+<h1>Deployment to Heroku</h1>
+
+<h2>Procfile</h2>
+<p>I chose to deploy my web app to heroku so that it is more accessible. In order to do this, I had to include a
+Procfile telling gunicorn to how to run my Flask app on Heroku. I also had to add gunicorn to my requirements.txt.
+</p>
